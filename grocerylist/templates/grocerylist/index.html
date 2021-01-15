@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="{% static 'grocerylist/style.css' %}">
+</head>
+<body>
+    <div id="container">
+    <h1>Grocery List</h1>
+        <ul>
+            <h2>Need To Purchase</h2>
+            {% for grocery_item in grocery_list %}
+                {% if not grocery_item.purchased %}
+                    <li>
+                        <form action="{% url 'grocerylist:purchased' grocery_item.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit"><img src="{% static 'grocerylist/check.png' %}" alt="Purchased item button"></button>
+                        <form action="{% url 'grocerylist:deleted' grocery_item.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit"><img src="{% static 'grocerylist/delete.png' %}" alt="Delete item button"></button>
+                        <strong>{{ grocery_item.description }}</strong>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            <li>
+                <form action="{% url 'grocerylist:create' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="description"/>
+                        <button type="submit"><img src="{% static 'grocerylist/add.png' %}" alt="Add item button" class="addbtn"></button>
+                </form>
+            </li>
+        </ul>
+        <ul>
+            <h2>Already Purchased</h2>
+            {% for grocery_item in grocery_list %}
+                {% if grocery_item.purchased %}
+                    <li>
+                        <img src="{% static 'grocerylist/check.png' %}" alt="Purchase Item Button" /><strong>{{ grocery_item.description }}</strong>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+ul li {
+    list-style: none;
+    vertical-align: middle;
+}
+img {
+    max-width: 20px;
+}
+button {
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    vertical-align: bottom;
+}
+
