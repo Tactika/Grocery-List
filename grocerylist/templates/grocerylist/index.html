@@ -9,40 +9,50 @@
 </head>
 <body>
     <div id="container">
-    <h1>Grocery List</h1>
-        <ul>
-            <h2>Need To Purchase</h2>
-            {% for grocery_item in grocery_list %}
-                {% if not grocery_item.purchased %}
-                    <li>
-                        <form action="{% url 'grocerylist:purchased' grocery_item.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit"><img src="{% static 'grocerylist/check.png' %}" alt="Purchased item button"></button>
-                        <form action="{% url 'grocerylist:deleted' grocery_item.id %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit"><img src="{% static 'grocerylist/delete.png' %}" alt="Delete item button"></button>
-                        <strong>{{ grocery_item.description }}</strong>
-                    </li>
-                {% endif %}
-            {% endfor %}
-            <li>
-                <form action="{% url 'grocerylist:create' %}" method="post">
+        <div id="header">
+            <h1>Grocery List</h1>
+        </div>
+        <div id="needs">
+            <ul>
+                <h2>Need To Purchase</h2>
+                {% for grocery_item in grocery_list %}
+                <li>
+                    {% if not grocery_item.purchased %}
                     {% csrf_token %}
-                    <input type="text" name="description"/>
-                        <button type="submit"><img src="{% static 'grocerylist/add.png' %}" alt="Add item button" class="addbtn"></button>
-                </form>
-            </li>
-        </ul>
-        <ul>
-            <h2>Already Purchased</h2>
-            {% for grocery_item in grocery_list %}
-                {% if grocery_item.purchased %}
-                    <li>
-                        <img src="{% static 'grocerylist/check.png' %}" alt="Purchase Item Button" /><strong>{{ grocery_item.description }}</strong>
-                    </li>
-                {% endif %}
-            {% endfor %}
-        </ul>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" formaction="{% url 'grocerylist:purchased' grocery_item.id %}">
+                                        <img src="{% static 'grocerylist/check.png' %}" alt="Purchased item button">
+                                    </button>
+                                    <button type="submit" formaction="{% url 'grocerylist:deleted' grocery_item.id %}">
+                                        <img src="{% static 'grocerylist/delete.png' %}" alt="Delete item button">
+                                    </button>
+                                    <strong>{{ grocery_item.description }}</strong>
+                                </form>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                <li>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="text" name="description"/>
+                            <button type="submit" formaction="{% url 'grocerylist:create' %}"><img src="{% static 'grocerylist/add.png' %}" alt="Add item button" class="addbtn"></button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div id="purchased">
+            <ul>
+                <h2>Already Purchased</h2>
+                {% for grocery_item in grocery_list %}
+                    {% if grocery_item.purchased %}
+                        <li>
+                            <img src="{% static 'grocerylist/check.png' %}" alt="Purchase Item Button" /><strong>{{ grocery_item.description }}</strong>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 </body>
 </html>

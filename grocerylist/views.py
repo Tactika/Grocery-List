@@ -1,7 +1,6 @@
 from django.shortcuts import render, reverse, get_object_or_404
 from django.http import HttpResponseRedirect
 from .models import GroceryList
-from .forms import GroceryListForm
 
 def index(request):
     grocery_list = GroceryList.objects.order_by('-id')
@@ -28,6 +27,5 @@ def purchased(request, id):
 def deleted(request, id):
     grocery_item = get_object_or_404(GroceryList, pk=id)
     grocery_item.delete()
-    grocery_item.save()
 
     return HttpResponseRedirect(reverse('grocerylist:index'))
